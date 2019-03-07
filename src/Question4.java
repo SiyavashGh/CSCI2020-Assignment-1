@@ -18,8 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-public class Part4 extends Application {
-    //public static int [] arr=new int[26];
+public class Question4 extends Application {
     private String fileName;
     private TextField nameInput = new TextField(fileName);
     private Stage primaryStage;
@@ -41,7 +40,7 @@ public class Part4 extends Application {
         });
         nameInput.setOnAction(event->{ //When enter is clicked, calls open File function
             chooseFile();
-                });
+        });
         grid.addRow(10, paths);
         char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray(); //Character Array of alphabet
         String contents = new String(Files.readAllBytes(Paths.get(file.toURI()))); //Creates String from file
@@ -55,18 +54,18 @@ public class Part4 extends Application {
                 charCount.put(c, 1);
             }
         }
-        final CategoryAxis xAxis = new CategoryAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        final BarChart<String, Number> bc = new BarChart<>(xAxis, yAxis); //Creates barchart
+        final CategoryAxis xAxis = new CategoryAxis(); //Inits X axis of chart with letters
+        final NumberAxis yAxis = new NumberAxis(); //inits Y axis of chart with numbers
+        final BarChart<String, Number> bc = new BarChart<>(xAxis, yAxis); //Creates barchart and initializes variables
         bc.setTitle("Alphabet Occurences");
         xAxis.setLabel("Letter");
         yAxis.setLabel("Value");
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("File");
-        for(char l : alphabet) //adds XY values to bar chart
-            if (charCount.containsKey(l)) {
+        for(char l : alphabet) //loops alphabet characters and adds the x axis
+            if (charCount.containsKey(l)) {//checks hashmap for letter, when true/found  sets amount of occur. To Y axis
                 series1.getData().add(new XYChart.Data(Character.toString(l), charCount.get(l)));
-            } else {
+            } else { //letter not in hashmap sets y value to 0
                 series1.getData().add(new XYChart.Data(Character.toString(l), 0));
             }
         Scene scene = new Scene(grid);
@@ -75,7 +74,7 @@ public class Part4 extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    private void chooseFile(){
+    private void chooseFile(){ //Function that opens window to choose file
         FileChooser filechooser = new FileChooser();
         filechooser.setTitle("Choose a text file");
         file = filechooser.showOpenDialog(primaryStage);
